@@ -1,0 +1,10 @@
+Apply-or-Skip
+Copyright 2026 Taswar Hussain
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This project calls Strands Agents (https://github.com/strands-agents/sdk-python) and
+Strands Decider (https://github.com/strands-labs/strands-decider), both Apache-2.0,
+as installed dependencies. No source code from those projects is vendored here; the
+System One request/response shapes are used as documented by strands-decider.
+All job postings and the candidate profile under examples/ are synthetic and fictional.

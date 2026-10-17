@@ -1,0 +1,23 @@
+# FICTIONAL demo candidate. Not a real person; contains no personal data.
+name: Demo Candidate (fictional)
+headline: Cloud / DevOps engineer, AWS and Kubernetes, infrastructure as code
+location: Pakistan
+timezone: UTC+5
+years_experience: 6
+work_authorization: Pakistani citizen; no US/EU work authorization; open to remote contractor or EOR roles
+skills: [AWS, Terraform, Kubernetes, EKS, Docker, Python, Bash, GitHub Actions, Prometheus, Grafana, Linux, PostgreSQL, CI/CD, Helm, Azure]
+experience:
+  - role: Senior DevOps Engineer
+    company: Example Fintech (fictional)
+    years: 2023-present
+    highlights:
+      - Migrated 40 services from EC2 to EKS with Helm and Argo CD; cut deploy time from 45 to 8 minutes
+      - Wrote reusable Terraform modules for VPC, RDS and IAM used by 6 teams
+      - Reduced monthly AWS spend 28% with rightsizing, Savings Plans and S3 lifecycle rules
+  - role: DevOps Engineer
+    company: Example Software House (fictional)
+    years: 2020-2023
+    highlights:
+      - Built GitHub Actions pipelines with automated tests and blue/green deploys
+      - Set up Prometheus/Grafana alerting; on-call MTTR down from 2h to 25m
+education: BS Computer Science

@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "apply-or-skip"
+version = "0.1.0"
+description = "Job triage agent: Strands Decider 2B picks each next tool, Amazon Bedrock Nova writes text. #strands-decider-2b #tool-selection"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.11"
+dependencies = ["strands-agents>=1.61", "pyyaml>=6", "rich>=13"]
+
+[project.optional-dependencies]
+decider = ["strands-decider>=0.1.0"]
+dev = ["pytest>=8"]
+
+[project.scripts]
+apply-or-skip = "apply_or_skip.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["apply_or_skip*", "patterns*", "evals*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
