@@ -62,6 +62,15 @@ python -m evals.run_eval --router both --mock                # plumbing check on
 `--mock` uses a keyword heuristic shaped like Decider answers and template text. It is **not** Decider 2B
 and its numbers mean nothing about model quality; the CLI prints a banner whenever it is on.
 
+## Decider 2B usage
+- Server (recommended): `pip install strands-decider && strands-decider serve --checkpoint StrandsAgents/strands-decider-2B-hobson-v21 --host 127.0.0.1 --port 8099` (CPU works; ~8 GB RAM), then `DECIDER_BACKEND=http`.
+- In-process: `DECIDER_BACKEND=inprocess` loads `DECIDER_CHECKPOINT` directly.
+- Every routing decision is a `choice` question over the six tools; fit checks are five `noul` questions in one request.
+
+## Bedrock usage
+Needs AWS credentials with model access to `amazon.nova-micro-v1:0` and `amazon.nova-lite-v1:0` in `AWS_REGION` (default `us-east-1`).
+Nova Micro parses postings and casts the low-confidence vote; Nova Lite tailors resumes. Smoke-test without Bedrock: `--mock-bedrock` (eval) or `--mock`.
+
 ## Real run (EC2 + Decider 2B + Bedrock)
 
 1. Set an AWS Budget alert first (the author uses $15/month).
@@ -99,7 +108,15 @@ The Decider server has no authentication: it binds `127.0.0.1` and must never be
 - Expected total for the hackathon: a few dollars of EC2 time; under $1 of Bedrock.
 
 ## Eval
-CPU smoke test of the real checkpoint (real Decider, templated Bedrock): 0.80 final-tool accuracy, ~1.0 s p50 per decision; see [`docs/decider-smoke-test.md`](docs/decider-smoke-test.md).
+| Metric (40 synthetic postings, real Decider 2B on CPU) | Result |
+|---|---|
+| Final-tool accuracy | **0.80** (32/40) |
+| Routing LLM calls | 0 |
+| Decision latency | ~1.0 s p50, 1.45 s p95 |
+
+**Bedrock was mocked in this run** (templated parsing, no LLM fallback), so treat it as a smoke test; 7 of 8 misses
+came from fit-check `noul` answers. Details and repro command: [`docs/decider-smoke-test.md`](docs/decider-smoke-test.md).
+Re-run with real Bedrock via step 6 of *Real run*.
 
 `evals/labels.jsonl` labels 40 **synthetic** postings (`examples/postings/`, all fictional) with the correct final tool
 (23 skip, 13 tailor, 4 ask_user including a missing file). `evals/run_eval.py` compares the Decider router against an LLM-router baseline
@@ -112,7 +129,7 @@ apply_or_skip/             agent: tools, loop, gate agent, CLI, web UI, Bedrock 
 evals/                     labels + harness
 examples/                  synthetic postings + fictional profile
 deploy/                    EC2 user-data, idle stop, IAM policy, launch reference
-docs/                      article draft, demo script
+docs/                      article, demo shot list, CPU smoke test
 tests/                     offline unit tests (mocked Decider + Bedrock)
 ```
 
