@@ -63,7 +63,7 @@ python -m evals.run_eval --router both --mock                # plumbing check on
 and its numbers mean nothing about model quality; the CLI prints a banner whenever it is on.
 
 ## Decider 2B usage
-- Server (recommended): `pip install strands-decider && strands-decider serve --checkpoint StrandsAgents/strands-decider-2B-hobson-v21 --host 127.0.0.1 --port 8099` (CPU works; ~8 GB RAM), then `DECIDER_BACKEND=http`.
+- Server (recommended): `pip install strands-decider && strands-decider serve StrandsAgents/strands-decider-2B-hobson-v21 --host 127.0.0.1 --port 8099 --device cpu` (CPU works; ~8 GB RAM), then `DECIDER_BACKEND=http`.
 - In-process: `DECIDER_BACKEND=inprocess` loads `DECIDER_CHECKPOINT` directly.
 - Every routing decision is a `choice` question over the six tools; fit checks are five `noul` questions in one request.
 
